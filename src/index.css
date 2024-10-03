@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Disable scrolling */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Disable scroll */
+}
+
+/* Parent container for the theme background */
+.theme-background {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  background-color: #050a0f; /* Almost black but not fully */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Centered radial gradient circle */
+.theme-circle-center {
+  position: absolute;
+  top: 40%;
+  height: 40vw;
+  width: 40vw;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle farthest-side,
+    rgba(161, 104, 255, 0.15),
+    /* Updated gradient color to #a168ff with 0.15 opacity */
+      rgba(255, 255, 255, 0) /* Fades into transparent white */
+  );
+}
+
+/* Make the circle smaller on smaller screens */
+@media (max-width: 768px) {
+  .theme-circle-center {
+    height: 60vw;
+    width: 60vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-circle-center {
+    height: 200vw;
+    width: 200vw;
+  }
+}
