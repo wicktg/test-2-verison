@@ -87,6 +87,7 @@ const App = () => {
   // Fetch Telegram user data
   useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready(); // Ensures that the Web App is initialized
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
       if (user) {
         setTelegramUser(user); // Set Telegram user data
