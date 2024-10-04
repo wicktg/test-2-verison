@@ -8,22 +8,25 @@ const Header = ({ randomAmount, telegramUser }) => {
   // Display the user's username if available, otherwise, display first and last name
   const displayName = telegramUser?.username
     ? `@${telegramUser.username}`
-    : `${telegramUser?.firstName || ""} ${telegramUser?.lastName || ""}`;
+    : `${telegramUser?.first_name || ""} ${telegramUser?.last_name || ""}`; // Ensure correct Telegram naming conventions
 
   // Use the user's photo if available, otherwise, use the default avatar
-  const userAvatar = telegramUser?.photoUrl || avatar;
+  const userAvatar = telegramUser?.photo_url || avatar;
 
   return (
     <div>
       {/* Top Left Profile Info */}
       <div className="absolute top-4 left-4 flex items-center gap-4 z-20">
+        {/* Avatar */}
         <img
           className="w-10 h-10 rounded-full"
           src={userAvatar}
           alt="Profile"
         />
-        <div className="font-medium dark:text-white">
-          <div>{displayName.trim()}</div> {/* Trim extra spaces if no name */}
+
+        {/* Username/Name */}
+        <div className="font-medium text-white">
+          <div>{displayName.trim()}</div> {/* Trim spaces if name missing */}
         </div>
       </div>
 
