@@ -49,7 +49,7 @@ const UpgradeCard = ({
 
   return (
     <div className="max-w-sm p-6 bg-gray-900 bg-opacity-70 rounded-xl shadow-lg text-white border border-gray-700 relative">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-4">
         <div className="text-xl font-semibold text-white">
           Upgrade Mining Limit
         </div>
@@ -59,10 +59,10 @@ const UpgradeCard = ({
         Leveling up increases the total number of points you can mine. Costs
         rise with each level.
       </div>
-      <div className="text-yellow-400 mb-6">
+      <div className="text-yellow-400 mb-4">
         Upgrade Cost: {upgradeCosts[nextLevel]} Points {/* Display cost */}
       </div>
-      <div className="text-green-400 mb-6">
+      <div className="text-green-400 mb-4">
         Current Limit: {currentMiningLimit} → New Limit: {nextMiningLimit}{" "}
         {/* Show old -> new limit */}
       </div>

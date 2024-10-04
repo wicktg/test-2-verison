@@ -95,7 +95,7 @@ const App = () => {
               role="alert"
             >
               <span className="font-semibold text-purple-400">Upgraded!</span>{" "}
-              Mining limit increased.
+              Successfully
             </div>
           )}
           <div className="absolute inset-0 theme-background z-0">
@@ -170,7 +170,7 @@ const App = () => {
                           showUpgradeCard
                             ? "translate-y-0 opacity-100"
                             : "translate-y-full opacity-0"
-                        } flex items-center justify-center mt-14`}
+                        } flex items-center justify-center mt-2`}
                       >
                         <UpgradeCard
                           balance={balance}
