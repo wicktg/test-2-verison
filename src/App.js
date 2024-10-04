@@ -1,138 +1,201 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "./components/Navbar";
-import Header from "./components/Header"; // Import Header component
+import Header from "./components/Header";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import "./App.css";
-import teser from "./assets/teser.png"; // Import the teser icon
+import teser from "./assets/teser.png";
+import Upgrade from "./components/Upgrade";
+import UpgradeCard from "./components/UpgradeCard";
 
 const App = () => {
   const [isMining, setIsMining] = useState(false);
   const [farmingProgress, setFarmingProgress] = useState(0);
-  const [balance, setBalance] = useState(1000); // Balance remains a number
-  const [totalPointsToFarm, setTotalPointsToFarm] = useState(10);
-  const [randomAmount] = useState(Math.floor(Math.random() * 20) + 1); // Generate once when the component mounts
-  const [telegramUser, setTelegramUser] = useState(null); // State to store Telegram user data
+  const [balance, setBalance] = useState(1000);
+  const [totalPointsToFarm, setTotalPointsToFarm] = useState(11); // Default mining limit
+  const [miningSpeed, setMiningSpeed] = useState(0);
+  const [telegramUser, setTelegramUser] = useState(null);
+  const [level, setLevel] = useState(1);
+  const [showUpgradeCard, setShowUpgradeCard] = useState(false);
 
-  const farmingSpeed = 0.1; // Farming speed (0.1 points per second)
+  // New state to manage the "Upgraded!" alert visibility
+  const [showUpgradeAlert, setShowUpgradeAlert] = useState(false);
 
-  // Function to start mining
+  const upgradeCosts = [
+    0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200,
+  ];
+  const pointsPerLevel = [10, 11, 14, 19, 26, 35, 46, 59, 74, 91, 110]; // Incremental mining limit per level
+
+  const upgradeCardRef = useRef(null);
+  const randomAmount = 10;
+
+  useEffect(() => {
+    const calculatedMiningSpeed = totalPointsToFarm / 180;
+    setMiningSpeed(calculatedMiningSpeed);
+  }, [totalPointsToFarm]);
+
   const handleStartMiningClick = () => {
-    if (!isMining) {
-      setIsMining(true); // Start mining
-    }
+    if (!isMining) setIsMining(true);
   };
 
-  // Function to claim farmed points
   const handleClaimClick = () => {
-    setBalance((prevBalance) => prevBalance + farmingProgress); // Update balance with farmed points
-    setFarmingProgress(0); // Reset farming progress
-    setIsMining(false); // Reset mining state
+    setBalance((prevBalance) => prevBalance + farmingProgress);
+    setFarmingProgress(0);
+    setIsMining(false);
   };
 
-  // Mining process logic
   useEffect(() => {
     let farmingInterval;
     if (isMining && farmingProgress < totalPointsToFarm) {
       farmingInterval = setInterval(() => {
         setFarmingProgress((prevProgress) => {
-          const newProgress = prevProgress + farmingSpeed;
-          return newProgress.toFixed(2) >= totalPointsToFarm
+          const newProgress = prevProgress + miningSpeed;
+          return newProgress >= totalPointsToFarm
             ? totalPointsToFarm
-            : parseFloat(newProgress.toFixed(2));
+            : newProgress;
         });
       }, 1000);
     }
-
     return () => clearInterval(farmingInterval);
-  }, [isMining, farmingProgress, totalPointsToFarm]);
+  }, [isMining, farmingProgress, totalPointsToFarm, miningSpeed]);
 
-  // Fetch Telegram user data on component mount
+  const handleUpgradeClick = () => setShowUpgradeCard(true);
+
+  const handleUpgradeComplete = () => setShowUpgradeCard(false);
+
   useEffect(() => {
-    const loadTelegramScript = () => {
-      const script = document.createElement("script");
-      script.src = "https://telegram.org/js/telegram-web-app.js";
-      script.async = true;
-      script.onload = () => {
-        if (window.Telegram?.WebApp) {
-          window.Telegram.WebApp.ready();
-          const user = window.Telegram.WebApp.initDataUnsafe?.user;
-
-          if (user) {
-            // Set the user data in state
-            setTelegramUser({
-              firstName: user.first_name,
-              lastName: user.last_name,
-              username: user.username,
-              isPremium: user.is_premium,
-              languageCode: user.language_code,
-              photoUrl: user.photo_url, // Fetch the user's profile picture URL
-            });
-          }
-        }
-      };
-      document.body.appendChild(script);
+    const handleClickOutside = (event) => {
+      if (
+        upgradeCardRef.current &&
+        !upgradeCardRef.current.contains(event.target)
+      ) {
+        setShowUpgradeCard(false);
+      }
     };
+    if (showUpgradeCard)
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showUpgradeCard]);
 
-    loadTelegramScript();
-  }, []);
+  const nextLevelCost = upgradeCosts[level + 1];
 
   return (
-    <div className="relative min-h-screen flex flex-col">
-      {/* Background Theme */}
-      <div className="absolute inset-0 theme-background z-0">
-        <div className="theme-circle-center"></div>
-      </div>
-
-      {/* Header Component with Avatar and Tickets */}
-      <Header randomAmount={randomAmount} telegramUser={telegramUser} />
-
-      {/* Main Content - Centered Teser Icon and Balance */}
-      <div className="flex-grow flex justify-center items-center mb-72 z-10">
-        <div className="flex flex-col items-center gap-4">
-          {/* Teser Icon with spinning animation during mining */}
-          <div
-            className={`${
-              isMining ? "animate-spin-slow" : ""
-            } flex justify-center items-center`}
-          >
-            <img className="w-14 h-14" src={teser} alt="Teser Icon" />
+    <NextUIProvider>
+      <Router>
+        <div className="relative min-h-screen flex flex-col">
+          {/* Alert for the whole app */}
+          {showUpgradeAlert && (
+            <div
+              className="absolute top-4 left-1/2 transform -translate-x-1/2 p-4 text-sm text-gray-200 rounded-lg bg-gray-900 bg-opacity-80 border border-gray-700 shadow-lg z-50 transition-opacity duration-300 opacity-100"
+              role="alert"
+            >
+              <span className="font-semibold text-purple-400">Upgraded!</span>{" "}
+              Mining limit increased.
+            </div>
+          )}
+          <div className="absolute inset-0 theme-background z-0">
+            <div className="theme-circle-center"></div>
           </div>
 
-          {/* Balance Display */}
-          <div className="text-white font-bold text-5xl">
-            {Number(balance).toFixed(2)}{" "}
-          </div>
+          <div className="flex-grow flex justify-center items-center mb-72 z-10">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Header
+                      randomAmount={randomAmount}
+                      telegramUser={telegramUser}
+                    />
+                    <div className="flex flex-col items-center gap-4">
+                      <div
+                        className={`${
+                          isMining ? "animate-spin-slow" : ""
+                        } flex justify-center items-center`}
+                      >
+                        <img
+                          className="w-14 h-14"
+                          src={teser}
+                          alt="Teser Icon"
+                        />
+                      </div>
+                      <div className="text-white font-bold text-5xl">
+                        {Number(balance).toFixed(2)}
+                      </div>
+                      <div className="flex flex-col items-center mt-6">
+                        {farmingProgress < totalPointsToFarm ? (
+                          <div
+                            className="text-1xl text-white opacity-50 cursor-pointer -tracking-wider ml-1"
+                            onClick={handleStartMiningClick}
+                          >
+                            {isMining
+                              ? `Farming: ${farmingProgress.toFixed(
+                                  2
+                                )} / ${totalPointsToFarm.toFixed(2)}`
+                              : "Start Mining >"}
+                          </div>
+                        ) : (
+                          <div
+                            className="text-1xl ml-1 text-white opacity-50 cursor-pointer -tracking-wider"
+                            onClick={handleClaimClick}
+                          >
+                            {`Claim: ${farmingProgress.toFixed(
+                              2
+                            )} / ${totalPointsToFarm.toFixed(2)}`}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                }
+              />
 
-          {/* Dynamic Button Text */}
-          <div className="flex flex-col items-center mt-6">
-            {farmingProgress < totalPointsToFarm ? (
-              <div
-                className="text-1xl text-white opacity-50 cursor-pointer -tracking-wider ml-1"
-                onClick={handleStartMiningClick}
-              >
-                {isMining
-                  ? `Farming: ${farmingProgress.toFixed(
-                      2
-                    )} / ${totalPointsToFarm.toFixed(2)}`
-                  : "Start Mining >"}
-              </div>
-            ) : (
-              <div
-                className="text-1xl ml-1 text-white opacity-50 cursor-pointer -tracking-wider"
-                onClick={handleClaimClick}
-              >
-                {`Claim: ${farmingProgress.toFixed(
-                  2
-                )} / ${totalPointsToFarm.toFixed(2)}`}
-              </div>
-            )}
+              <Route
+                path="/upgrade"
+                element={
+                  <div className="flex items-center justify-center mt-24 h-full w-80">
+                    <div className="flex flex-col gap-8">
+                      <div onClick={handleUpgradeClick}>
+                        <Upgrade level={level} cost={nextLevelCost} />
+                      </div>
+
+                      <div
+                        ref={upgradeCardRef}
+                        className={`transform transition-transform duration-500 ${
+                          showUpgradeCard
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-full opacity-0"
+                        } flex items-center justify-center mt-14`}
+                      >
+                        <UpgradeCard
+                          balance={balance}
+                          setBalance={setBalance}
+                          setTotalPointsToFarm={setTotalPointsToFarm}
+                          miningSpeed={miningSpeed}
+                          setLevel={setLevel}
+                          level={level}
+                          onUpgradeComplete={handleUpgradeComplete}
+                          pointsPerLevel={pointsPerLevel}
+                          setShowUpgradeAlert={setShowUpgradeAlert} // Pass the alert setter
+                        />
+                      </div>
+                    </div>
+                  </div>
+                }
+              />
+
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
           </div>
+          <Navbar className="z-20" />
         </div>
-      </div>
-
-      {/* Navbar */}
-      <Navbar className="z-20" />
-    </div>
+      </Router>
+    </NextUIProvider>
   );
 };
 
