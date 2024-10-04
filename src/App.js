@@ -10,22 +10,26 @@ const App = () => {
   const [farmingProgress, setFarmingProgress] = useState(0);
   const [balance, setBalance] = useState(1000); // Balance remains a number
   const [totalPointsToFarm, setTotalPointsToFarm] = useState(10);
+  const [randomAmount] = useState(Math.floor(Math.random() * 20) + 1); // Generate once when the component mounts
+  const [telegramUser, setTelegramUser] = useState(null); // State to store Telegram user data
 
   const farmingSpeed = 0.1; // Farming speed (0.1 points per second)
-  const randomAmount = Math.floor(Math.random() * 20) + 1;
 
+  // Function to start mining
   const handleStartMiningClick = () => {
     if (!isMining) {
       setIsMining(true); // Start mining
     }
   };
 
+  // Function to claim farmed points
   const handleClaimClick = () => {
     setBalance((prevBalance) => prevBalance + farmingProgress); // Update balance with farmed points
     setFarmingProgress(0); // Reset farming progress
     setIsMining(false); // Reset mining state
   };
 
+  // Mining process logic
   useEffect(() => {
     let farmingInterval;
     if (isMining && farmingProgress < totalPointsToFarm) {
@@ -42,6 +46,36 @@ const App = () => {
     return () => clearInterval(farmingInterval);
   }, [isMining, farmingProgress, totalPointsToFarm]);
 
+  // Fetch Telegram user data on component mount
+  useEffect(() => {
+    const loadTelegramScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://telegram.org/js/telegram-web-app.js";
+      script.async = true;
+      script.onload = () => {
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.ready();
+          const user = window.Telegram.WebApp.initDataUnsafe?.user;
+
+          if (user) {
+            // Set the user data in state
+            setTelegramUser({
+              firstName: user.first_name,
+              lastName: user.last_name,
+              username: user.username,
+              isPremium: user.is_premium,
+              languageCode: user.language_code,
+              photoUrl: user.photo_url, // Fetch the user's profile picture URL
+            });
+          }
+        }
+      };
+      document.body.appendChild(script);
+    };
+
+    loadTelegramScript();
+  }, []);
+
   return (
     <div className="relative min-h-screen flex flex-col">
       {/* Background Theme */}
@@ -50,7 +84,7 @@ const App = () => {
       </div>
 
       {/* Header Component with Avatar and Tickets */}
-      <Header randomAmount={randomAmount} />
+      <Header randomAmount={randomAmount} telegramUser={telegramUser} />
 
       {/* Main Content - Centered Teser Icon and Balance */}
       <div className="flex-grow flex justify-center items-center mb-72 z-10">
