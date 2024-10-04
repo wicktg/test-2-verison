@@ -19,7 +19,7 @@ const App = () => {
   const [balance, setBalance] = useState(1000);
   const [totalPointsToFarm, setTotalPointsToFarm] = useState(11); // Default mining limit
   const [miningSpeed, setMiningSpeed] = useState(0);
-  const [telegramUser, setTelegramUser] = useState(null);
+  const [telegramUser, setTelegramUser] = useState(null); // Fetch Telegram user data
   const [level, setLevel] = useState(1);
   const [showUpgradeCard, setShowUpgradeCard] = useState(false);
 
@@ -84,6 +84,16 @@ const App = () => {
 
   const nextLevelCost = upgradeCosts[level + 1];
 
+  // Fetch Telegram user data
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const user = window.Telegram.WebApp.initDataUnsafe?.user;
+      if (user) {
+        setTelegramUser(user); // Set Telegram user data
+      }
+    }
+  }, []);
+
   return (
     <NextUIProvider>
       <Router>
@@ -110,7 +120,7 @@ const App = () => {
                   <>
                     <Header
                       randomAmount={randomAmount}
-                      telegramUser={telegramUser}
+                      telegramUser={telegramUser} // Pass Telegram user to Header
                     />
                     <div className="flex flex-col items-center gap-4">
                       <div
