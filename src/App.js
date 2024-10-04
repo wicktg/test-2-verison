@@ -39,7 +39,7 @@ const App = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000); // 5 seconds
+    }, 3000); // 5 seconds
 
     return () => clearTimeout(timer); // Clear timeout if the component unmounts
   }, []);
@@ -202,7 +202,7 @@ const App = () => {
               <Route
                 path="/upgrade"
                 element={
-                  <div className="flex items-center justify-center mt-24 h-full w-80">
+                  <div className="fixed items-center justify-center h-56 w-80 top-20">
                     <div className="flex flex-col gap-8">
                       <div onClick={handleUpgradeClick}>
                         <Upgrade level={level} cost={nextLevelCost} />
@@ -210,11 +210,11 @@ const App = () => {
 
                       <div
                         ref={upgradeCardRef}
-                        className={`transform transition-transform duration-500 ${
+                        className={`fixed bottom-20 left-0 right-0 z-50 transform transition-transform duration-500 ${
                           showUpgradeCard
                             ? "translate-y-0 opacity-100"
                             : "translate-y-full opacity-0"
-                        } flex items-center justify-center mt-2`}
+                        } flex items-center justify-center w-full`}
                       >
                         <UpgradeCard
                           balance={balance}
