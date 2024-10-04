@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import HashLoader from "react-spinners/HashLoader";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import {
@@ -24,6 +25,8 @@ const App = () => {
   const [showUpgradeCard, setShowUpgradeCard] = useState(false);
   const [showUpgradeAlert, setShowUpgradeAlert] = useState(false); // Alert visibility
 
+  const [loading, setLoading] = useState(true); // New loading state for loader screen
+
   const upgradeCosts = [
     0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200,
   ];
@@ -31,6 +34,15 @@ const App = () => {
 
   const upgradeCardRef = useRef(null);
   const randomAmount = 10;
+
+  // Simulate loading screen for 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000); // 5 seconds
+
+    return () => clearTimeout(timer); // Clear timeout if the component unmounts
+  }, []);
 
   // Dynamically load Telegram WebApp script
   useEffect(() => {
@@ -105,6 +117,16 @@ const App = () => {
 
   const nextLevelCost = upgradeCosts[level + 1];
 
+  // If still loading, show loading screen
+  if (loading) {
+    return (
+      <div className="theme-background flex flex-col justify-center items-center space-y-4">
+        <HashLoader color="#a168ff" size={80} speedMultiplier={1} />
+        <span className="text-white text-lg">Loading</span>
+      </div>
+    );
+  }
+  // Main app content after loading
   return (
     <NextUIProvider>
       <Router>
