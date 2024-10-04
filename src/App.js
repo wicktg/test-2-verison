@@ -22,9 +22,7 @@ const App = () => {
   const [telegramUser, setTelegramUser] = useState(null); // Fetch Telegram user data
   const [level, setLevel] = useState(1);
   const [showUpgradeCard, setShowUpgradeCard] = useState(false);
-
-  // New state to manage the "Upgraded!" alert visibility
-  const [showUpgradeAlert, setShowUpgradeAlert] = useState(false);
+  const [showUpgradeAlert, setShowUpgradeAlert] = useState(false); // Alert visibility
 
   const upgradeCosts = [
     0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200,
@@ -34,6 +32,28 @@ const App = () => {
   const upgradeCardRef = useRef(null);
   const randomAmount = 10;
 
+  // Dynamically load Telegram WebApp script
+  useEffect(() => {
+    const loadTelegramScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://telegram.org/js/telegram-web-app.js";
+      script.async = true;
+      script.onload = () => {
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.ready();
+          const user = window.Telegram.WebApp.initDataUnsafe?.user;
+
+          if (user) {
+            setTelegramUser(user); // Set Telegram user data
+          }
+        }
+      };
+      document.body.appendChild(script);
+    };
+    loadTelegramScript();
+  }, []);
+
+  // Calculate mining speed based on total points to farm
   useEffect(() => {
     const calculatedMiningSpeed = totalPointsToFarm / 180;
     setMiningSpeed(calculatedMiningSpeed);
@@ -77,23 +97,13 @@ const App = () => {
         setShowUpgradeCard(false);
       }
     };
-    if (showUpgradeCard)
+    if (showUpgradeCard) {
       document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showUpgradeCard]);
 
   const nextLevelCost = upgradeCosts[level + 1];
-
-  // Fetch Telegram user data
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready(); // Ensures that the Web App is initialized
-      const user = window.Telegram.WebApp.initDataUnsafe?.user;
-      if (user) {
-        setTelegramUser(user); // Set Telegram user data
-      }
-    }
-  }, []);
 
   return (
     <NextUIProvider>
@@ -109,6 +119,7 @@ const App = () => {
               Successfully
             </div>
           )}
+
           <div className="absolute inset-0 theme-background z-0">
             <div className="theme-circle-center"></div>
           </div>
