@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import HashLoader from "react-spinners/HashLoader";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,10 +6,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
-import "./App.css";
-import teser from "./assets/teser.png";
-import Upgrade from "./components/Upgrade";
-import UpgradeCard from "./components/UpgradeCard";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import LoadingImage from "./assets/loading.png";
+import Development from "./components/Development"; // Import the Development loading screen component
+import "./App.css"; // Import global CSS
 
 const App = () => {
   const [isMining, setIsMining] = useState(false);
@@ -21,25 +19,15 @@ const App = () => {
   const [totalPointsToFarm, setTotalPointsToFarm] = useState(11); // Default mining limit
   const [miningSpeed, setMiningSpeed] = useState(0);
   const [telegramUser, setTelegramUser] = useState(null); // Fetch Telegram user data
-  const [level, setLevel] = useState(1);
-  const [showUpgradeCard, setShowUpgradeCard] = useState(false);
-  const [showUpgradeAlert, setShowUpgradeAlert] = useState(false); // Alert visibility
-
   const [loading, setLoading] = useState(true); // New loading state for loader screen
 
-  const upgradeCosts = [
-    0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200,
-  ];
-  const pointsPerLevel = [10, 11, 14, 19, 26, 35, 46, 59, 74, 91, 110]; // Incremental mining limit per level
-
-  const upgradeCardRef = useRef(null);
   const randomAmount = 10;
 
-  // Simulate loading screen for 5 seconds
+  // Simulate loading screen for 3 seconds (only on initial load)
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // 5 seconds
+    }, 3000); // 3 seconds
 
     return () => clearTimeout(timer); // Clear timeout if the component unmounts
   }, []);
@@ -96,58 +84,33 @@ const App = () => {
     return () => clearInterval(farmingInterval);
   }, [isMining, farmingProgress, totalPointsToFarm, miningSpeed]);
 
-  const handleUpgradeClick = () => setShowUpgradeCard(true);
-
-  const handleUpgradeComplete = () => setShowUpgradeCard(false);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        upgradeCardRef.current &&
-        !upgradeCardRef.current.contains(event.target)
-      ) {
-        setShowUpgradeCard(false);
-      }
-    };
-    if (showUpgradeCard) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUpgradeCard]);
-
-  const nextLevelCost = upgradeCosts[level + 1];
-
-  // If still loading, show loading screen
+  // If loading, show the loader only on initial load
   if (loading) {
     return (
       <div className="theme-background flex flex-col justify-center items-center space-y-4">
-        <HashLoader color="#a168ff" size={80} speedMultiplier={1} />
+        {/* Replace HashLoader with your custom logo */}
+        <img
+          src={LoadingImage}
+          alt="Loading..."
+          className="w-20 h-20 animate-spin-slow"
+        />
         <span className="text-white text-lg">Loading</span>
       </div>
     );
   }
+
   // Main app content after loading
   return (
     <NextUIProvider>
       <Router>
         <div className="relative min-h-screen flex flex-col">
-          {/* Alert for the whole app */}
-          {showUpgradeAlert && (
-            <div
-              className="absolute top-4 left-1/2 transform -translate-x-1/2 p-4 text-sm text-gray-200 rounded-lg bg-gray-900 bg-opacity-80 border border-gray-700 shadow-lg z-50 transition-opacity duration-300 opacity-100"
-              role="alert"
-            >
-              <span className="font-semibold text-purple-400">Upgraded!</span>{" "}
-              Successfully
-            </div>
-          )}
-
           <div className="absolute inset-0 theme-background z-0">
             <div className="theme-circle-center"></div>
           </div>
 
           <div className="flex-grow flex justify-center items-center mb-72 z-10">
             <Routes>
+              {/* Full header on the home page */}
               <Route
                 path="/"
                 element={
@@ -164,7 +127,7 @@ const App = () => {
                       >
                         <img
                           className="w-14 h-14"
-                          src={teser}
+                          src={LoadingImage}
                           alt="Teser Icon"
                         />
                       </div>
@@ -193,46 +156,35 @@ const App = () => {
                             )} / ${totalPointsToFarm.toFixed(2)}`}
                           </div>
                         )}
+                        <div className="fixed justify-center items-center bottom-56 space-x-4">
+                          <button
+                            type="button"
+                            className="
+                              py-2.5 px-5 
+                              text-sm font-medium 
+                              text-white
+                              bg-purple-600 /* Purple background */
+                              rounded-full /* Rounded shape */
+                              border-none /* No border */
+                              focus:outline-none 
+                              appearance-none /* Remove any default browser styles */
+                              active:opacity-70 /* Reduce opacity when clicked */
+                              transition duration-200 ease-in-out /* Smooth transition for the effect */
+                              animate-bounce /* Bounce animation */
+                            "
+                          >
+                            PLAY GAME
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </>
                 }
               />
 
-              <Route
-                path="/upgrade"
-                element={
-                  <div className="fixed items-center justify-center h-56 w-80 top-20">
-                    <div className="flex flex-col gap-8">
-                      <div onClick={handleUpgradeClick}>
-                        <Upgrade level={level} cost={nextLevelCost} />
-                      </div>
-
-                      <div
-                        ref={upgradeCardRef}
-                        className={`fixed bottom-20 left-0 right-0 z-50 transform transition-transform duration-500 ${
-                          showUpgradeCard
-                            ? "translate-y-0 opacity-100"
-                            : "translate-y-full opacity-0"
-                        } flex items-center justify-center w-full`}
-                      >
-                        <UpgradeCard
-                          balance={balance}
-                          setBalance={setBalance}
-                          setTotalPointsToFarm={setTotalPointsToFarm}
-                          miningSpeed={miningSpeed}
-                          setLevel={setLevel}
-                          level={level}
-                          onUpgradeComplete={handleUpgradeComplete}
-                          pointsPerLevel={pointsPerLevel}
-                          setShowUpgradeAlert={setShowUpgradeAlert} // Pass the alert setter
-                        />
-                      </div>
-                    </div>
-                  </div>
-                }
-              />
-
+              <Route path="/upgrade" element={<Development />} />
+              <Route path="/earn" element={<Development />} />
+              <Route path="/referrals" element={<Development />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

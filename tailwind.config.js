@@ -10,12 +10,12 @@ module.exports = {
     extend: {
       animation: {
         "spin-slow": "spin 3s linear infinite", // Slow down the spin animation
-        bounce: "bounce 1s infinite", // Add bounce animation
+        bounce: "bounce 3s infinite", // Add bounce animation
       },
       keyframes: {
         bounce: {
           "0%, 100%": {
-            transform: "translateY(-25%)",
+            transform: "translateY(-50%)",
             "animation-timing-function": "cubic-bezier(0.8, 0, 1, 1)",
           },
           "50%": {

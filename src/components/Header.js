@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import avatar from "../assets/default.jpg"; // Adjust the path as needed
 import tickets from "../assets/tickets.png"; // Adjust the path as needed
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"; // Import MUI Leaderboard icon
@@ -39,22 +40,22 @@ const Header = ({ randomAmount, telegramUser }) => {
         </div>
 
         {/* Leaderboards - Clickable */}
-        <a
-          href="/leaderboard" // Replace with the desired route or action
+        <Link
+          to="/leaderboard" // Use Link instead of a tag for routing
           className="flex items-center gap-2 cursor-pointer"
           title="Go to Leaderboard"
         >
           <LeaderboardIcon style={{ color: "white" }} />{" "}
-        </a>
+        </Link>
 
         {/* Wallet - Clickable */}
-        <a
-          href="/wallet" // Replace with the desired route or action
+        <Link
+          to="/wallet" // Use Link instead of a tag for routing
           className="flex items-center gap-2 cursor-pointer"
           title="Go to Wallet"
         >
           <AccountBalanceWalletIcon style={{ color: "white" }} />{" "}
-        </a>
+        </Link>
       </div>
     </div>
   );

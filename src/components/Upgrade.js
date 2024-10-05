@@ -1,5 +1,5 @@
 import React from "react";
-import energyLimitImage from "../assets/energy-limit.png"; // Import the image
+import energyLimitImage from "../assets/energy-limit.png"; // Import the image for Mining Limit
 
 const Upgrade = ({ level, cost }) => {
   return (
