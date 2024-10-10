@@ -82,19 +82,21 @@ const App = () => {
                     <Header telegramUser={telegramUser} />{" "}
                     {/* Pass Telegram user to Header */}
                     <div className="flex flex-col items-center gap-4">
-                      <div className="flex justify-center items-center">
+                      <div className="flex justify-center items-center mt-11">
                         <img
                           className="w-14 h-14"
                           src={LoadingImage}
                           alt="Teser Icon"
                         />
                       </div>
+
+                      {/* Display balance */}
                       <div className="text-white font-bold text-5xl">
                         {Number(balance).toFixed(2)}
                       </div>
 
                       {/* Leaderboard link */}
-                      <div className="absolute justify-center items-center text-white text-lg font-normal cursor-pointer hover:text-purple-400 transition duration-200 ease-in-out opacity-65 top-72">
+                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer hover:text-purple-400 transition duration-200 ease-in-out opacity-65 mt-6">
                         Leaderboard &gt;
                       </div>
 
@@ -103,20 +105,19 @@ const App = () => {
                         <button
                           type="button"
                           className="
-                            flex justify-center items-center
-                            w-28 h-28 
-                            text-white
-                            bg-purple-600 /* Purple background */
-                            rounded-full /* Fully rounded circle */
-                            border-none /* No border */
-                            focus:outline-none 
-                            appearance-none /* Remove any default browser styles */
-                            active:opacity-70 /* Reduce opacity when clicked */
-                            transition duration-200 ease-in-out /* Smooth transition for the effect */
-                            
-                          "
+        flex justify-center items-center
+        w-32 h-32 
+        text-white
+        bg-purple-600 /* Purple background */
+        rounded-full /* Fully rounded circle */
+        border-none /* No border */
+        focus:outline-none 
+        appearance-none /* Remove any default browser styles */
+        active:opacity-70 /* Reduce opacity when clicked */
+        transition duration-200 ease-in-out /* Smooth transition for the effect */
+      "
                         >
-                          <PlayArrowIcon style={{ fontSize: 56 }} />
+                          <PlayArrowIcon style={{ fontSize: 60 }} />
                         </button>
                       </div>
                     </div>
