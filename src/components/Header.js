@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import avatar from "../assets/default.jpg"; // Adjust the path as needed
-import tickets from "../assets/tickets.png"; // Adjust the path as needed
 import LeaderboardIcon from "@mui/icons-material/Leaderboard"; // Import MUI Leaderboard icon
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet"; // Import MUI Wallet icon
 
-const Header = ({ randomAmount, telegramUser }) => {
+const Header = ({ telegramUser }) => {
   // Display the user's username if available, otherwise, display first and last name
   const displayName = telegramUser?.username
     ? `@${telegramUser.username}`
@@ -31,30 +29,19 @@ const Header = ({ randomAmount, telegramUser }) => {
         </div>
       </div>
 
-      {/* Top Right Section with Tickets, Leaderboards, and Wallet */}
+      {/* Top Right Section with Button - Leaderboards */}
       <div className="absolute top-6 right-4 flex items-center gap-4 z-20">
-        {/* Tickets */}
-        <div className="flex items-center gap-2">
-          <img className="w-5 h-5" src={tickets} alt="Tickets" />
-          <div className="text-white font-semibold">{randomAmount}</div>
-        </div>
-
-        {/* Leaderboards - Clickable */}
-        <Link
-          to="/leaderboard" // Use Link instead of a tag for routing
-          className="flex items-center gap-2 cursor-pointer"
-          title="Go to Leaderboard"
-        >
-          <LeaderboardIcon style={{ color: "white" }} />{" "}
-        </Link>
-
-        {/* Wallet - Clickable */}
-        <Link
-          to="/wallet" // Use Link instead of a tag for routing
-          className="flex items-center gap-2 cursor-pointer"
-          title="Go to Wallet"
-        >
-          <AccountBalanceWalletIcon style={{ color: "white" }} />{" "}
+        <Link to="/leaderboard" className="flex items-center">
+          {/* Button styled similar to the original button, just color updated */}
+          <button
+            className="relative inline-flex items-center overflow-hidden px-4 font-secondary flex-centered w-45 py-1 sm:py-2 text-[12px] sm:text-sm font-bold text-white rounded-[13px] gap-2 bg-purple-600 button-shadow"
+            type="button"
+          >
+            <LeaderboardIcon
+              style={{ width: "20px", height: "20px", fill: "white" }}
+            />
+            Leaderboards
+          </button>
         </Link>
       </div>
     </div>

@@ -13,15 +13,9 @@ import Development from "./components/Development"; // Import the Development lo
 import "./App.css"; // Import global CSS
 
 const App = () => {
-  const [isMining, setIsMining] = useState(false);
-  const [farmingProgress, setFarmingProgress] = useState(0);
   const [balance, setBalance] = useState(1000);
-  const [totalPointsToFarm, setTotalPointsToFarm] = useState(11); // Default mining limit
-  const [miningSpeed, setMiningSpeed] = useState(0);
   const [telegramUser, setTelegramUser] = useState(null); // Fetch Telegram user data
   const [loading, setLoading] = useState(true); // New loading state for loader screen
-
-  const randomAmount = 10;
 
   // Simulate loading screen for 3 seconds (only on initial load)
   useEffect(() => {
@@ -52,37 +46,6 @@ const App = () => {
     };
     loadTelegramScript();
   }, []);
-
-  // Calculate mining speed based on total points to farm
-  useEffect(() => {
-    const calculatedMiningSpeed = totalPointsToFarm / 180;
-    setMiningSpeed(calculatedMiningSpeed);
-  }, [totalPointsToFarm]);
-
-  const handleStartMiningClick = () => {
-    if (!isMining) setIsMining(true);
-  };
-
-  const handleClaimClick = () => {
-    setBalance((prevBalance) => prevBalance + farmingProgress);
-    setFarmingProgress(0);
-    setIsMining(false);
-  };
-
-  useEffect(() => {
-    let farmingInterval;
-    if (isMining && farmingProgress < totalPointsToFarm) {
-      farmingInterval = setInterval(() => {
-        setFarmingProgress((prevProgress) => {
-          const newProgress = prevProgress + miningSpeed;
-          return newProgress >= totalPointsToFarm
-            ? totalPointsToFarm
-            : newProgress;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(farmingInterval);
-  }, [isMining, farmingProgress, totalPointsToFarm, miningSpeed]);
 
   // If loading, show the loader only on initial load
   if (loading) {
@@ -115,16 +78,10 @@ const App = () => {
                 path="/"
                 element={
                   <>
-                    <Header
-                      randomAmount={randomAmount}
-                      telegramUser={telegramUser} // Pass Telegram user to Header
-                    />
+                    <Header telegramUser={telegramUser} />{" "}
+                    {/* Pass Telegram user to Header */}
                     <div className="flex flex-col items-center gap-4">
-                      <div
-                        className={`${
-                          isMining ? "animate-spin-slow" : ""
-                        } flex justify-center items-center`}
-                      >
+                      <div className="flex justify-center items-center">
                         <img
                           className="w-14 h-14"
                           src={LoadingImage}
@@ -134,57 +91,34 @@ const App = () => {
                       <div className="text-white font-bold text-5xl">
                         {Number(balance).toFixed(2)}
                       </div>
-                      <div className="flex flex-col items-center mt-6">
-                        {farmingProgress < totalPointsToFarm ? (
-                          <div
-                            className="text-1xl text-white opacity-50 cursor-pointer -tracking-wider ml-1"
-                            onClick={handleStartMiningClick}
-                          >
-                            {isMining
-                              ? `Farming: ${farmingProgress.toFixed(
-                                  2
-                                )} / ${totalPointsToFarm.toFixed(2)}`
-                              : "Start Mining >"}
-                          </div>
-                        ) : (
-                          <div
-                            className="text-1xl ml-1 text-white opacity-50 cursor-pointer -tracking-wider"
-                            onClick={handleClaimClick}
-                          >
-                            {`Claim: ${farmingProgress.toFixed(
-                              2
-                            )} / ${totalPointsToFarm.toFixed(2)}`}
-                          </div>
-                        )}
-                        <div className="fixed justify-center items-center bottom-56 space-x-4">
-                          <button
-                            type="button"
-                            className="
-                              py-2.5 px-5 
-                              text-sm font-medium 
-                              text-white
-                              bg-purple-600 /* Purple background */
-                              rounded-full /* Rounded shape */
-                              border-none /* No border */
-                              focus:outline-none 
-                              appearance-none /* Remove any default browser styles */
-                              active:opacity-70 /* Reduce opacity when clicked */
-                              transition duration-200 ease-in-out /* Smooth transition for the effect */
-                              animate-bounce /* Bounce animation */
-                            "
-                          >
-                            PLAY GAME
-                          </button>
-                        </div>
+                      <div className="fixed justify-center items-center bottom-56 space-x-4">
+                        <button
+                          type="button"
+                          className="
+                            py-2.5 px-5 
+                            text-sm font-medium 
+                            text-white
+                            bg-purple-600 /* Purple background */
+                            rounded-full /* Rounded shape */
+                            border-none /* No border */
+                            focus:outline-none 
+                            appearance-none /* Remove any default browser styles */
+                            active:opacity-70 /* Reduce opacity when clicked */
+                            transition duration-200 ease-in-out /* Smooth transition for the effect */
+                            animate-bounce /* Bounce animation */
+                          "
+                        >
+                          PLAY SIMULATOR
+                        </button>
                       </div>
                     </div>
                   </>
                 }
               />
-
-              <Route path="/upgrade" element={<Development />} />
               <Route path="/earn" element={<Development />} />
               <Route path="/referrals" element={<Development />} />
+              <Route path="/wallet" element={<Development />} />
+              {/* Added the new route */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
