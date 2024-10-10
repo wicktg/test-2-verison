@@ -41,7 +41,7 @@ const Header = ({ telegramUser }) => {
                 textShadow: "rgba(160, 255, 6, 0.4) 0px 2px 20px",
               }}
             >
-              86.4K
+              100.0K
             </span>
           </div>
         </div>

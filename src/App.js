@@ -93,6 +93,11 @@ const App = () => {
                         {Number(balance).toFixed(2)}
                       </div>
 
+                      {/* Leaderboard link */}
+                      <div className="absolute justify-center items-center text-white text-lg font-normal cursor-pointer hover:text-purple-400 transition duration-200 ease-in-out opacity-65 top-72">
+                        Leaderboard &gt;
+                      </div>
+
                       <div className="fixed justify-center items-center bottom-44 space-x-4">
                         {/* Circular button with resume/play icon */}
                         <button
