@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import LoadingImage from "./assets/loading.png";
 import Development from "./components/Development"; // Import the Development loading screen component
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"; // Importing resume/play icon
 import "./App.css"; // Import global CSS
 
 const App = () => {
@@ -91,24 +92,26 @@ const App = () => {
                       <div className="text-white font-bold text-5xl">
                         {Number(balance).toFixed(2)}
                       </div>
-                      <div className="fixed justify-center items-center bottom-56 space-x-4">
+
+                      <div className="fixed justify-center items-center bottom-44 space-x-4">
+                        {/* Circular button with resume/play icon */}
                         <button
                           type="button"
                           className="
-                            py-2.5 px-5 
-                            text-sm font-medium 
+                            flex justify-center items-center
+                            w-28 h-28 
                             text-white
                             bg-purple-600 /* Purple background */
-                            rounded-full /* Rounded shape */
+                            rounded-full /* Fully rounded circle */
                             border-none /* No border */
                             focus:outline-none 
                             appearance-none /* Remove any default browser styles */
                             active:opacity-70 /* Reduce opacity when clicked */
                             transition duration-200 ease-in-out /* Smooth transition for the effect */
-                            animate-bounce /* Bounce animation */
+                            
                           "
                         >
-                          PLAY SIMULATOR
+                          <PlayArrowIcon style={{ fontSize: 56 }} />
                         </button>
                       </div>
                     </div>

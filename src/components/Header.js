@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import avatar from "../assets/default.jpg"; // Adjust the path as needed
-import LeaderboardIcon from "@mui/icons-material/Leaderboard"; // Import MUI Leaderboard icon
 
 const Header = ({ telegramUser }) => {
   // Display the user's username if available, otherwise, display first and last name
@@ -29,20 +28,23 @@ const Header = ({ telegramUser }) => {
         </div>
       </div>
 
-      {/* Top Right Section with Button - Leaderboards */}
-      <div className="absolute top-6 right-4 flex items-center gap-4 z-20">
-        <Link to="/leaderboard" className="flex items-center">
-          {/* Button styled similar to the original button, just color updated */}
-          <button
-            className="relative inline-flex items-center overflow-hidden px-4 font-secondary flex-centered w-45 py-1 sm:py-2 text-[12px] sm:text-sm font-bold text-white rounded-[13px] gap-2 bg-purple-600 button-shadow"
-            type="button"
-          >
-            <LeaderboardIcon
-              style={{ width: "20px", height: "20px", fill: "white" }}
-            />
-            Leaderboards
-          </button>
-        </Link>
+      {/* Top Right Section with Passive Income (replacing Leaderboards) */}
+      <div className="absolute top-4 right-4 flex items-center gap-4 z-20">
+        <div className="bg-[#111112] rounded-[13px] flex-col w-36 py-1 px-3 sm:py-5 sm:px-5 relative">
+          <div className="text-[11px] sm:text-sm text-[#ffffff] font-semibold">
+            Passive income
+          </div>
+          <div className="flex text-[#ffffff]">
+            <span
+              className="text-[#a168ff] text-sm sm:text-base pt-1 font-semibold"
+              style={{
+                textShadow: "rgba(160, 255, 6, 0.4) 0px 2px 20px",
+              }}
+            >
+              86.4K
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
