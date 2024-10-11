@@ -34,9 +34,8 @@ body {
   z-index: -9; /* Ensure this is below content but above background */
   background: radial-gradient(
     circle farthest-side,
-    rgba(0, 255, 156, 0.15),
-    /* Updated to use #00ff9c with 15% opacity */ rgba(255, 255, 255, 0)
-      /* Fading out to transparent */
+    rgba(161, 104, 255, 0.15),
+    rgba(255, 255, 255, 0)
   );
 }
 

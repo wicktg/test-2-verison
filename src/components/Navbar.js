@@ -30,7 +30,7 @@ const Navbar = () => {
       <Link to="/" className="group flex flex-col items-center">
         <button
           className={`transition-colors duration-200 ${
-            activeButton === "home" ? "text-[#00ff9c]" : "text-gray-400"
+            activeButton === "home" ? "text-[#a168ff]" : "text-gray-400"
           }`}
         >
           <div className="p-1.5">
@@ -44,7 +44,7 @@ const Navbar = () => {
       <Link to="/earn" className="group flex flex-col items-center">
         <button
           className={`transition-colors duration-200 ${
-            activeButton === "earn" ? "text-[#00ff9c]" : "text-gray-400"
+            activeButton === "earn" ? "text-[#a168ff]" : "text-gray-400"
           }`}
         >
           <div className="p-1.5">
@@ -58,7 +58,7 @@ const Navbar = () => {
       <Link to="/referrals" className="group flex flex-col items-center">
         <button
           className={`transition-colors duration-200 ${
-            activeButton === "referrals" ? "text-[#00ff9c]" : "text-gray-400"
+            activeButton === "referrals" ? "text-[#a168ff]" : "text-gray-400"
           }`}
         >
           <div className="p-1.5">
@@ -72,7 +72,7 @@ const Navbar = () => {
       <Link to="/wallet" className="group flex flex-col items-center">
         <button
           className={`transition-colors duration-200 ${
-            activeButton === "wallet" ? "text-[#00ff9c]" : "text-gray-400"
+            activeButton === "wallet" ? "text-[#a168ff]" : "text-gray-400"
           }`}
         >
           <div className="p-1.5">

@@ -97,29 +97,28 @@ const App = () => {
                       </div>
 
                       {/* Leaderboard link */}
-                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer  active:text-[color:#00ff9c] transition duration-200 ease-in-out opacity-65 mt-6">
+                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer active:text-purple-400 transition duration-200 ease-in-out opacity-65 mt-6">
                         Leaderboard &gt;
                       </div>
 
                       <div className="fixed justify-center items-center bottom-44 space-x-4">
+                        {/* Circular button with resume/play icon */}
                         <button
                           type="button"
                           className="
-    flex justify-center items-center
-    w-32 h-32 
-    text-white
-    rounded-full /* Fully rounded circle */
-    border-none /* No border */
-    focus:outline-none 
-    appearance-none /* Remove any default browser styles */
-    active:opacity-70 /* Reduce opacity when clicked */
-    transition duration-200 ease-in-out /* Smooth transition for the effect */
-  "
-                          style={{ backgroundColor: "#00ff9c" }} // Apply the color here
+        flex justify-center items-center
+        w-32 h-32 
+        text-white
+        bg-purple-600 /* Purple background */
+        rounded-full /* Fully rounded circle */
+        border-none /* No border */
+        focus:outline-none 
+        appearance-none /* Remove any default browser styles */
+        active:opacity-70 /* Reduce opacity when clicked */
+        transition duration-200 ease-in-out /* Smooth transition for the effect */
+      "
                         >
-                          <PlayArrowIcon
-                            style={{ fontSize: 60, color: "#111112" }}
-                          />
+                          <PlayArrowIcon style={{ fontSize: 60 }} />
                         </button>
                       </div>
                     </div>

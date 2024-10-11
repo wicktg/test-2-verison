@@ -36,7 +36,7 @@ const Header = ({ telegramUser }) => {
           </div>
           <div className="flex text-[#ffffff]">
             <span
-              className="text-[#00ff9c] text-sm sm:text-base pt-1 font-semibold"
+              className="text-[#a168ff] text-sm sm:text-base pt-1 font-semibold"
               style={{
                 textShadow: "rgba(160, 255, 6, 0.4) 0px 2px 20px",
               }}
