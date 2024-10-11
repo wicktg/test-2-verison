@@ -118,7 +118,7 @@ const App = () => {
                           style={{ backgroundColor: "#00ff9c" }} // Apply the color here
                         >
                           <PlayArrowIcon
-                            style={{ fontSize: 60, color: "black" }}
+                            style={{ fontSize: 60, color: "#111112" }}
                           />
                         </button>
                       </div>
