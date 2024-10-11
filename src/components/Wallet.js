@@ -50,7 +50,7 @@ const Wallet = () => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Main Wallet Card */}
-      <div className="bg-[#141414] rounded-xl p-4 w-96 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg">
+      <div className="bg-[#141414] rounded-xl p-4 w-90 h-auto mx-3 my-3 flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg">
         <img
           src={tonwalletIcon}
           alt="Ton Wallet"
