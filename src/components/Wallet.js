@@ -54,11 +54,8 @@ const Wallet = () => {
         <img
           src={tonwalletIcon}
           alt="Ton Wallet"
-          className="mx-auto w-68 h-52"
+          className="mx-auto mb-2 w-60 h-48"
         />
-        <h2 className="text-center text-white text-3xl font-bold py-2">
-          WE &#10084; TON
-        </h2>
 
         {/* Show the airdrop message, always visible */}
         <p className="text-center text-white items-center px-2 text-sm">
