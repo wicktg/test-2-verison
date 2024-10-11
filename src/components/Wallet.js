@@ -45,16 +45,27 @@ const Wallet = () => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
 
-  // UI rendering (without loading state)
+  // Determine dynamic class for container size based on connection status
+  const containerClass = tonWalletAddress
+    ? "w-80" // Smaller size when connected
+    : "w-96"; // Larger size when not connected
+
+  // UI rendering
   return (
-    <div className="bg-[#141414] rounded-xl p-4 w-96 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg">
+    <div
+      className={`bg-[#141414] rounded-xl p-4 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg ${containerClass}`}
+    >
       <img src={tonwalletIcon} alt="Ton Wallet" className="mx-auto" />
       <h2 className="text-center text-white text-xl font-bold py-2">
         WE &#10084; TON
       </h2>
-      <p className="text-center text-white items-center px-2 text-sm">
-        <b>Connect your TON wallet</b> to get more of the Airdrop rewards
-      </p>
+
+      {/* Conditionally render the airdrop message only if wallet is not connected */}
+      {!tonWalletAddress && (
+        <p className="text-center text-white items-center px-2 text-sm">
+          <b>Connect your TON wallet</b> to get more of the Airdrop rewards
+        </p>
+      )}
 
       {tonWalletAddress ? (
         <div className="text-center text-white">
