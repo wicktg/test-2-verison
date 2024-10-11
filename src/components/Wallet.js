@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { useTonConnectUI } from "@tonconnect/ui-react";
+import LogoutIcon from "@mui/icons-material/Logout"; // Import MUI icon
 import tonwalletIcon from "../assets/ton-wallet.png";
 
 const Wallet = () => {
@@ -45,37 +46,43 @@ const Wallet = () => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
 
-  // Determine dynamic class for container size based on connection status
-  const containerClass = tonWalletAddress
-    ? "w-80" // Smaller size when connected
-    : "w-96"; // Larger size when not connected
-
   // UI rendering
   return (
-    <div
-      className={`bg-[#141414] rounded-xl p-4 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg ${containerClass}`}
-    >
-      <img src={tonwalletIcon} alt="Ton Wallet" className="mx-auto" />
-      <h2 className="text-center text-white text-xl font-bold py-2">
+    <div className="bg-[#141414] rounded-xl p-4 w-96 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg">
+      <img src={tonwalletIcon} alt="Ton Wallet" className="mx-auto w-68 h-52" />
+      <h2 className="text-center text-white text-3xl font-bold py-2">
         WE &#10084; TON
       </h2>
 
-      {/* Conditionally render the airdrop message only if wallet is not connected */}
+      {/* Show the airdrop message only when the wallet is not connected */}
       {!tonWalletAddress && (
         <p className="text-center text-white items-center px-2 text-sm">
-          <b>Connect your TON wallet</b> to get more of the Airdrop rewards
+          <b>Connecting your TON wallet</b> ensures you get more of the Airdrop
+          rewards
         </p>
       )}
 
       {tonWalletAddress ? (
-        <div className="text-center text-white">
-          <p>Connected: {formatAddress(tonWalletAddress)}</p>
+        <div className="grid grid-cols-[80%_auto] gap-3 mt-6">
+          {/* Connected wallet address and image */}
+          <div className="flex items-center rounded-2xl px-3 py-2 h-14 border border-gray-700">
+            <img
+              src="https://wallet.tg/images/logo-288.png"
+              alt="Ton Wallet"
+              className="w-7 rounded-xl max-w-xs mr-2"
+            />
+            <p className="bg-transparent text-white w-full outline-none ml-4">
+              {formatAddress(tonWalletAddress)}
+            </p>
+          </div>
+
+          {/* Disconnect button using MUI LogoutIcon */}
           <button
             onClick={handleWalletAction}
-            className="bg-red-500 font-semibold rounded-xl text-white px-4 py-2 text-sm w-full mt-4 button-shadow active:opacity-50 transition-opacity duration-100"
             type="button"
+            className="flex items-center justify-center bg-[#292929] rounded-2xl w-full"
           >
-            Disconnect Wallet
+            <LogoutIcon style={{ color: "#969696" }} /> {/* MUI Logout Icon */}
           </button>
         </div>
       ) : (
