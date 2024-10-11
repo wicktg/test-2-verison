@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import LogoutIcon from "@mui/icons-material/Logout"; // Import MUI icon
+import CloseIcon from "@mui/icons-material/Close"; // Import MUI Close (cross) icon
 import tonwalletIcon from "../assets/ton-wallet.png";
 
 const Wallet = () => {
@@ -50,17 +50,15 @@ const Wallet = () => {
   return (
     <div className="bg-[#141414] rounded-xl p-4 w-96 h-auto mx-auto flex flex-col justify-between items-center space-y-4 md:w-full md:max-w-lg">
       <img src={tonwalletIcon} alt="Ton Wallet" className="mx-auto w-68 h-52" />
-      <h2 className="text-center text-white text-3xl font-bold py-2">
+      <h2 className="text-center text-white text-xl font-bold py-2">
         WE &#10084; TON
       </h2>
 
-      {/* Show the airdrop message only when the wallet is not connected */}
-      {!tonWalletAddress && (
-        <p className="text-center text-white items-center px-2 text-sm">
-          <b>Connecting your TON wallet</b> ensures you get more of the Airdrop
-          rewards
-        </p>
-      )}
+      {/* Show the airdrop message, always visible */}
+      <p className="text-center text-white items-center px-2 text-sm">
+        <b>Connecting your TON wallet</b> ensures you get more of the Airdrop
+        rewards
+      </p>
 
       {tonWalletAddress ? (
         <div className="grid grid-cols-[80%_auto] gap-3 mt-6">
@@ -76,13 +74,14 @@ const Wallet = () => {
             </p>
           </div>
 
-          {/* Disconnect button using MUI LogoutIcon */}
+          {/* Disconnect button using MUI CloseIcon (red cross) */}
           <button
             onClick={handleWalletAction}
             type="button"
-            className="flex items-center justify-center bg-[#292929] rounded-2xl w-full"
+            className="flex items-center justify-center rounded-2xl w-full"
           >
-            <LogoutIcon style={{ color: "#969696" }} /> {/* MUI Logout Icon */}
+            <CloseIcon style={{ color: "red", fontSize: "24px" }} />{" "}
+            {/* Red cross icon */}
           </button>
         </div>
       ) : (
