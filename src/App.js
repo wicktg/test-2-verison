@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -9,7 +9,6 @@ import {
 import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
-import Wallet from "./components/Wallet";
 import LoadingImage from "./assets/loading.png";
 import Development from "./components/Development"; // Import the Development loading screen component
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"; // Importing resume/play icon
@@ -98,28 +97,29 @@ const App = () => {
                       </div>
 
                       {/* Leaderboard link */}
-                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer active:text-purple-400 transition duration-200 ease-in-out opacity-65 mt-6">
+                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer  active:text-[color:#00ff9c] transition duration-200 ease-in-out opacity-65 mt-6">
                         Leaderboard &gt;
                       </div>
 
                       <div className="fixed justify-center items-center bottom-44 space-x-4">
-                        {/* Circular button with resume/play icon */}
                         <button
                           type="button"
                           className="
-        flex justify-center items-center
-        w-32 h-32 
-        text-white
-        bg-purple-600 /* Purple background */
-        rounded-full /* Fully rounded circle */
-        border-none /* No border */
-        focus:outline-none 
-        appearance-none /* Remove any default browser styles */
-        active:opacity-70 /* Reduce opacity when clicked */
-        transition duration-200 ease-in-out /* Smooth transition for the effect */
-      "
+    flex justify-center items-center
+    w-32 h-32 
+    text-white
+    rounded-full /* Fully rounded circle */
+    border-none /* No border */
+    focus:outline-none 
+    appearance-none /* Remove any default browser styles */
+    active:opacity-70 /* Reduce opacity when clicked */
+    transition duration-200 ease-in-out /* Smooth transition for the effect */
+  "
+                          style={{ backgroundColor: "#00ff9c" }} // Apply the color here
                         >
-                          <PlayArrowIcon style={{ fontSize: 60 }} />
+                          <PlayArrowIcon
+                            style={{ fontSize: 60, color: "black" }}
+                          />
                         </button>
                       </div>
                     </div>
@@ -128,7 +128,7 @@ const App = () => {
               />
               <Route path="/earn" element={<Development />} />
               <Route path="/referrals" element={<Development />} />
-              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/wallet" element={<Development />} />
               {/* Added the new route */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
