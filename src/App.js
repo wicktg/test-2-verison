@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -8,6 +9,7 @@ import {
 import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
+import Wallet from "./components/Wallet";
 import LoadingImage from "./assets/loading.png";
 import Development from "./components/Development"; // Import the Development loading screen component
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"; // Importing resume/play icon
@@ -96,7 +98,7 @@ const App = () => {
                       </div>
 
                       {/* Leaderboard link */}
-                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer hover:text-purple-400 transition duration-200 ease-in-out opacity-65 mt-6">
+                      <div className="flex justify-center items-center text-white text-lg font-normal cursor-pointer active:text-purple-400 transition duration-200 ease-in-out opacity-65 mt-6">
                         Leaderboard &gt;
                       </div>
 
@@ -126,7 +128,7 @@ const App = () => {
               />
               <Route path="/earn" element={<Development />} />
               <Route path="/referrals" element={<Development />} />
-              <Route path="/wallet" element={<Development />} />
+              <Route path="/wallet" element={<Wallet />} />
               {/* Added the new route */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
