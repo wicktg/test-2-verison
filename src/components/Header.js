@@ -30,7 +30,7 @@ const Header = ({ telegramUser }) => {
 
       {/* Top Right Section with Passive Income (replacing Leaderboards) */}
       <div className="absolute top-4 right-4 flex items-center gap-4 z-20">
-        <div className="bg-[#111112] rounded-[13px] flex-col w-36 py-1 px-3 sm:py-5 sm:px-5 relative">
+        <div className="bg-[#111112] rounded-[13px] flex-col w-28 py-1 px-3 sm:py-5 sm:px-5 relative">
           <div className="text-[11px] sm:text-sm text-[#ffffff] font-semibold">
             Passive income
           </div>
