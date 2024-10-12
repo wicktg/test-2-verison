@@ -28,9 +28,9 @@ const renderLoadingScreen = () => (
   </div>
 );
 
-const AppContent = () => {
+const AppContent = ({ telegramUser }) => {
+  // Receive telegramUser as a prop
   const [balance, setBalance] = useState(1000);
-  const [telegramUser, setTelegramUser] = useState(null);
   const [playButtonLoading, setPlayButtonLoading] = useState(false); // Tracks Play button loading
   const navigate = useNavigate(); // Initialize navigate hook
 
@@ -43,7 +43,7 @@ const AppContent = () => {
       setTimeout(() => {
         setPlayButtonLoading(false); // Stop showing the loading screen
         navigate("/simulator"); // Navigate to the /simulator page
-      }, 5000); // 2 seconds delay
+      }, 5000); // 5 seconds delay
     };
 
     return (
@@ -110,6 +110,38 @@ const AppContent = () => {
 
 const App = () => {
   const [loading, setLoading] = useState(true); // Tracks initial load
+  const [telegramUser, setTelegramUser] = useState(null); // State for Telegram user
+
+  // Load Telegram Web App Script on mount
+  useEffect(() => {
+    const loadTelegramScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://telegram.org/js/telegram-web-app.js";
+      script.async = true;
+      script.onload = () => {
+        // Once the script is loaded, initialize the Telegram WebApp
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.ready();
+          const user = window.Telegram.WebApp.initDataUnsafe?.user;
+
+          if (user) {
+            // Set the user data in state
+            setTelegramUser({
+              first_name: user.first_name,
+              last_name: user.last_name,
+              username: user.username,
+              is_premium: user.is_premium,
+              language_code: user.language_code,
+              photo_url: user.photo_url, // Fetch the user's profile picture URL
+            });
+          }
+        }
+      };
+      document.body.appendChild(script);
+    };
+
+    loadTelegramScript();
+  }, []);
 
   // Simulate initial loading screen for 3 seconds
   useEffect(() => {
@@ -133,9 +165,8 @@ const App = () => {
           <div className="absolute inset-0 theme-background z-0">
             <div className="theme-circle-center"></div>
           </div>
-
-          <AppContent />
-
+          <AppContent telegramUser={telegramUser} />{" "}
+          {/* Pass telegramUser to AppContent */}
           <Navbar className="z-20" />
         </div>
       </Router>
